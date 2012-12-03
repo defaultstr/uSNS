@@ -26,9 +26,10 @@ public class SinaWeiboSource {
 		tm.client.setToken(token);
 		ArrayList<Post> result = null;
 		try {
-			StatusWapper sw = tm.getHomeTimeline(0, 0,
-					new Paging(1, 100, Long.parseLong(sinceId)));
-			result = new ArrayList<Post>();
+			Paging paging = sinceId == null ? new Paging(1, 100) : new Paging(
+					1, 100, Long.parseLong(sinceId));
+			StatusWapper sw = tm.getHomeTimeline(0, 0, paging);
+			result = new ArrayList<Post>(sw.getStatuses().size());
 			for (Status status : sw.getStatuses()) {
 				Post post = new Post();
 				post.user = status.getUser().getId();
@@ -39,6 +40,12 @@ public class SinaWeiboSource {
 				result.add(post);
 			}
 		} catch (WeiboException e) {
+			// If anything, we need to invalidate this token. It fails!
+			// XXX Maybe use refresh token?
+			DB.getCollection("tokens").remove(
+					new BasicDBObject("access-token", token).append("source",
+							SOURCE_NAME));
+
 			e.printStackTrace();
 		}
 		return result;
@@ -51,16 +58,10 @@ public class SinaWeiboSource {
 		if (token == null)
 			return null;
 		return getTokenPostsSince((String) token.get("access-token"), sinceId);
+	}
 
-		/*
-		 * Oauth oauth = new Oauth(); String url = oauth.authorize("code",
-		 * "getUserPosts(" + sinceId + ")");
-		 */
-		// Now we need to redirect our browser to |url|.
-		// And deal with the callback url. When it's done, resume by calling
-		// getTokenPostsSince. Assuming we have the code, we could get the
-		// access token
-		// with this code: oauth.getAccessTokenByCode(code).getAccessToken();
+	public static ArrayList<Post> getUserPosts(String user) {
+		return getUserPostsSince(user, null);
 	}
 
 	public static void putNewUserToken(String user, String code) {

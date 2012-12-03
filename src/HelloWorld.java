@@ -24,8 +24,8 @@ public class HelloWorld extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().write("hello world!");
-		response.getWriter().write("hehe!");
+		request.getSession().setAttribute("user", "defaultstr");
+		response.getWriter().write("Logged in as user defaultstr!");
 	}
 
 	/**
