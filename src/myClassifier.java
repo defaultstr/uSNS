@@ -1,13 +1,8 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
 import com.usns.entities.Post;
-
-import weka.classifiers.Classifier;
-import weka.classifiers.bayes.NaiveBayesMultinomial;
-import weka.classifiers.bayes.NaiveBayesMultinomialUpdateable;
-import weka.classifiers.bayes.NaiveBayesUpdateable;
-import weka.core.Instance;
 
 
 public class MyClassifier {
@@ -27,7 +22,7 @@ public class MyClassifier {
 	
 	public MyClassifier() {
 		if (spamClassifier == null) {
-			spamClassifier = new NaiveBayes();
+			spamClassifier = new NaiveBayes(2);
 		}
 		if (userClassifiers == null) {
 			userClassifiers = new HashMap<String, NaiveBayes>();
@@ -39,16 +34,16 @@ public class MyClassifier {
 		//if it is spam, 
 		if (tags.equals(SPAM_TAG)) {
 			
-			spamClassifier.update(composeData(p), SPAM_TAG);
+			spamClassifier.update(getFieldData(p), getTextData(p), SPAM_TAG);
 			//handle user preference
 			NaiveBayes myClassifier = userClassifiers.get(username);
 			if (myClassifier == null) {
-				myClassifier = new NaiveBayes();
+				myClassifier = new NaiveBayes(2);
 				userClassifiers.put(username, myClassifier);
 			}
-			myClassifier.update(composeData(p), SPAM_TAG);
+			myClassifier.update(getFieldData(p), getTextData(p), SPAM_TAG);
 		} else {
-			spamClassifier.update(composeData(p), NO_SPAM_TAG);
+			spamClassifier.update(getFieldData(p), getTextData(p), NO_SPAM_TAG);
 		}
 		
 		//if it is good
@@ -56,26 +51,34 @@ public class MyClassifier {
 			//handle user preference
 			NaiveBayes myClassifier = userClassifiers.get(username);
 			if (myClassifier == null) {
-				myClassifier = new NaiveBayes();
+				myClassifier = new NaiveBayes(2);
 				userClassifiers.put(username, myClassifier);
 			}
-			myClassifier.update(composeData(p), GOOD_TAG);
+			myClassifier.update(getFieldData(p), getTextData(p), GOOD_TAG);
 		}
 	}
 	
 
 
 	public String getTag(Post p, String username) throws Exception {
-		double result = spamClassifier.classify(postToInstance(p, null));
-		if (spamClassifier.)
-		NaiveBayesUpdateable myClassifier = userClassifiers.get(username);
-		
+		String result = spamClassifier.classify(getFieldData(p), getTextData(p));
+		if (result.equals(SPAM_TAG))
+			return SPAM_TAG;
+		NaiveBayes myClassifier = userClassifiers.get(username);
+		return myClassifier.classify(getFieldData(p), getTextData(p));
 	}
 	
-	private Set<String> composeData(Post p) {
+	private Set<String> getTextData(Post p) {
 		Set<String> data = NaiveBayes.get2Grams(p.text);
 		data.add(p.source);
 		data.add(p.user);
+		return data;
+	}
+	
+	private ArrayList<String> getFieldData(Post p) {
+		ArrayList<String> data = new ArrayList<String>();
+		data.add(p.user);
+		data.add(p.source);
 		return data;
 	}
 	
