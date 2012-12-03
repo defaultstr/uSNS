@@ -25,6 +25,9 @@ public class SinaWeiboSourceServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String code = (String) request.getAttribute("code");
+		String user = (String) request.getSession().getAttribute("user");
+		SinaWeiboSource.putNewUserToken(user, code);
 	}
 
 }
