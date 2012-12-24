@@ -72,10 +72,12 @@ public class SinaWeiboSource {
 		AccessToken at;
 		try {
 			at = new Oauth().getAccessTokenByCode(code);
-			tokens.insert(new BasicDBObject("user", user)
+			tokens.update(new BasicDBObject("user", user), 
+					new BasicDBObject("user", user)
 					.append("source", SOURCE_NAME)
 					.append("access-token", at.getAccessToken())
-					.append("refresh-token", at.getRefreshToken()));
+					.append("refresh-token", at.getRefreshToken()), 
+					true, false);
 		} catch (WeiboException e) {
 			e.printStackTrace();
 		}

@@ -184,5 +184,5 @@ function pageDown()
 
 function connectWeiBo()
 {
-	window.open("http://127.0.0.1/uSNS/connectToWeibo");
+	window.location = "http://127.0.0.1/uSNS/connectToWeibo";
 }
