@@ -97,9 +97,9 @@ public class NaiveBayes {
 			Ijx.put(classVal, Ijx.get(classVal) + 1);
  		}
 		
-		for (int i = 0; i < className.size(); i++) {
-			System.out.println(className.get(i) + ":" + classCount.get(className.get(i)));
-		}
+		//for (int i = 0; i < className.size(); i++) {
+		//	System.out.println(className.get(i) + ":" + classCount.get(className.get(i)));
+		//}
 	}
 	
 	public String classify(ArrayList<String> fieldData, Set<String> textData) {
@@ -107,12 +107,16 @@ public class NaiveBayes {
 			return null;
 		double[] p = new double[className.size()];
 		for (int i = 0; i < className.size(); i++) {
-			p[i] = 1.0 * classCount.get(className.get(i)) / N;
+			p[i] = 1.0 * classCount.get(className.get(i))/ N;
 		}
 		for (String gram : count.keySet()) {
-			System.out.println(gram);
+			//System.out.println(gram);
 			TreeMap<String, Integer> tree = count.get(gram);
 			if (textData.contains(gram)) {
+				System.out.println(gram);
+				for (int i = 0; i < className.size(); i++) {
+					System.out.println("class:" + className.get(i) + " p:" + p[i]);
+				}
 				for (int i = 0; i < className.size(); i++) {
 					//get sum I(x_j = 1, y = c_k)
 					String curClass = className.get(i);
@@ -121,13 +125,16 @@ public class NaiveBayes {
 						x = tree.get(curClass);
 					p[i] *= (x + lambda) / (classCount.get(curClass) + 2 * lambda);
 				}
+				for (int i = 0; i < className.size(); i++) {
+					System.out.println("class:" + className.get(i) + " p:" + p[i]);
+				}
 			} else {
 				for (int i = 0; i < className.size(); i++) {
 					String curClass = className.get(i);
 					double x = classCount.get(curClass);
 					if (tree.get(curClass) != null)
 						x -= tree.get(curClass);
-					p[i] *= (x + lambda) / (classCount.get(curClass) + 2 * lambda);
+					p[i] *= x / classCount.get(curClass);
 				}
 			}
 			//normalize
@@ -138,14 +145,6 @@ public class NaiveBayes {
 			for (int i = 0; i < className.size(); i++) {
 				p[i] /= max;
 			}
-			for (int i = 0; i < className.size(); i++) {
-				System.out.print(className.get(i) + "\t");
-			}
-			System.out.println();
-			for (int i = 0; i < className.size(); i++) {
-				System.out.print(p[i] + "\t");
-			}
-			System.out.println();
 		}
 		
 		for (int i = 0; i < fieldCount.size(); i++) {
@@ -179,9 +178,9 @@ public class NaiveBayes {
 			if (p[i] > p[maxIndex])
 				maxIndex = i;
 		}
-		for (int i = 0; i < className.size(); i++) {
-			System.out.println("class:" + className.get(i) + " p:" + p[i]);
-		}
+		//for (int i = 0; i < className.size(); i++) {
+		//	System.out.println("class:" + className.get(i) + " p:" + p[i]);
+		//}
 		return className.get(maxIndex);
 	}
 	

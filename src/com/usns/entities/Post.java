@@ -21,6 +21,7 @@ public class Post {
 	public String source;
 	public String sourceId;
 	public String tag;
+	public String autoTag;
 	public ObjectId dbId;
 
 	@Override
@@ -40,6 +41,7 @@ public class Post {
 			ret.put("source", p.source);
 			ret.put("sourceId", p.sourceId);
 			ret.put("tag", p.tag);
+			ret.put("autoTag", p.autoTag);
 			ret.put("_id", p.dbId.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -56,6 +58,7 @@ public class Post {
 		ret.append("source", p.source);
 		ret.append("sourceId", p.sourceId);
 		ret.append("tag", p.tag);
+		ret.append("autoTag", p.autoTag);
 		ret.append("_id", p.dbId);
 		return ret;
 	}
@@ -71,6 +74,7 @@ public class Post {
 		ret.source = obj.getString("source");
 		ret.sourceId = obj.getString("sourceId");
 		ret.tag = obj.getString("tag");
+		ret.autoTag = obj.getString("autoTag");
 		ret.dbId = obj.getObjectId("_id");
 		return ret;
 	}

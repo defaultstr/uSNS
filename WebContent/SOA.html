@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+			html { height: 100%; font-family: Arial; font-size: 20px; }
+			body { height: 100%; margin: 0px; padding: 0px; }
+			table { font-size: 100%; }
+		</style>
+  	<title>这是我们的SOA大作业哦亲~</title>
+	</head>
+	<body onload="onload();">
+		<style type="text/css">
+			.class-time
+			{
+				color:#009900;
+			}
+			.class-user
+			{
+				font-weight:bold;
+			}
+	  	.loginBody
+	  	{
+			 	position: absolute;
+		 	  top: 0;
+		    bottom: 0;
+		    left: 0;
+		    width: 20%;
+		    height: 100%;
+			}
+			.mainBody
+			{
+				position: absolute;
+				right: 0;
+				width: 80%;
+				height: 100%;
+			}
+		</style>
+		<div class="loginBody" id="login">
+			<table>
+				<tr><td type="text" id="td_title">这个是标题！</td></tr>
+				<tr><td>账号:<input id="txt_username" type="text" name="txt_username" value="hehe"></td></tr>
+				<tr><td>密码:<input id="txt_password" type="password" name="txt_password" value="12345"></td></tr>
+				<tr>
+					<td>
+						<input id="btn_login" type="button" onclick="login()" value="登录">
+						<input id="btn_connect_weibo" type="button" onclick="connectWeiBo()" value="连接到微博" disabled=true>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input id="btn_prevPage" type="button" onclick="pageUp()" value="上一页" disabled=true>
+						<input id="btn_nextPage" type="button" onclick="pageDown()" value="下一页" disabled=true>
+						<input id="btn_refresh" type="button" onclick="refreshData()" value="刷新" disabled=true>
+					</td>
+				</tr>
+						
+			</table>
+		</div>
+		<div class="mainBody" id="main">
+			<table id="tb_main" cellpadding="4" width="100%" cellspacing="10">
+				<tr><td>这里是显示区哦亲~很漂漂的哦亲~</td></tr>
+			</table>
+		</div>
+		<script type="text/javascript" src="f.js"	></script>
+	</body>
+</html>
