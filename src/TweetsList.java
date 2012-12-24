@@ -21,6 +21,7 @@ import com.usns.entities.Post;
 import com.usns.learning.GlobalClassifier;
 import com.usns.learning.MyClassifier;
 import com.usns.sources.SinaWeiboSource;
+import com.usns.sources.RenrenSource;
 
 /**
  * Servlet implementation class TweetsList
@@ -110,11 +111,18 @@ public class TweetsList extends HttpServlet {
 			if (source.equals(SinaWeiboSource.SOURCE_NAME)) {
 				ArrayList<Post> newList = SinaWeiboSource.getUserPostsSince(user, lastSourceId);
 				if (newList == null) {
-					response.sendRedirect(new Oauth().authorize("code", ""));
+					response.sendRedirect("connectToWeibo");
 				} else {
 					newPosts.addAll(newList);
 				}
-			}
+			} else if (source.equals(RenrenSource.SOURCE_NAME)) {
+        ArrayList<Post> newList = RenrenSource.getUserPostsSince(user, lastSourceId);
+        if (newList == null) {
+          response.sendRedirect("connectToRenren");
+        } else {
+          newPosts.addAll(newList);
+        }
+      }
 			//TODO add other source			
 		}
 		//tag and store new posts

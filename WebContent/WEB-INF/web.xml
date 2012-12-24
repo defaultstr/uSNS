@@ -30,6 +30,16 @@
     <url-pattern>/sources/sinaweibo_callback</url-pattern>
   </servlet-mapping>
   <servlet>
+    <description></description>
+    <display-name>RenrenSourceServlet</display-name>
+    <servlet-name>RenrenSourceServlet</servlet-name>
+    <servlet-class>com.usns.sources.RenrenSourceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RenrenSourceServlet</servlet-name>
+    <url-pattern>/sources/renren_callback</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <description>for login, if user doesn't exist, create new user.</description>
     <display-name>UserLogin</display-name>
     <servlet-name>UserLogin</servlet-name>
@@ -68,6 +78,16 @@
   <servlet-mapping>
     <servlet-name>SinaWeiboSourceConnectServlet</servlet-name>
     <url-pattern>/connectToWeibo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RenrenSourceConnectServlet</display-name>
+    <servlet-name>RenrenSourceConnectServlet</servlet-name>
+    <servlet-class>com.usns.sources.RenrenSourceConnectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RenrenSourceConnectServlet</servlet-name>
+    <url-pattern>/connectToRenren</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
