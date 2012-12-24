@@ -175,12 +175,13 @@ function handleIpResponseShow()
 		{
 			var user = json.list[i].user;
 			var text = json.list[i].text;
+			var source = json.list[i].source;
 			var time = (new Date(json.list[i].time)).toLocaleString();
 			
 		//	addrow("<div class='class-user'>"+user+"</div><div class='class-text'>"+text+
 		//		"</div><div class='class-time'>"+time+"</div>",json.list[i]._id);
 				
-			addrow("<div class='class-user'>"+user+
+			addrow("<div class='class-user'>"+user+ "<span class='class-source'> from " + source + "</span>" +
 				"</div><div class='class-text'>"+text+
 				"</div><div class='class-time'>"+time+
 				"</div><div class='class-btn'><input type='button' id='btn_like-"+json.list[i]._id+

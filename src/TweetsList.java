@@ -111,7 +111,6 @@ public class TweetsList extends HttpServlet {
 			}
 			if (source.equals(SinaWeiboSource.SOURCE_NAME)) {
 				ArrayList<Post> newList = SinaWeiboSource.getUserPostsSince(user, lastSourceId);
-				System.out.println(newList.size());
 				if (newList == null) {
 					response.sendRedirect("connectToWeibo");
 				} else {
@@ -119,9 +118,11 @@ public class TweetsList extends HttpServlet {
 				}
 			} else if (source.equals(RenrenSource.SOURCE_NAME)) {
         ArrayList<Post> newList = RenrenSource.getUserPostsSince(user, lastSourceId);
+       
         if (newList == null) {
           response.sendRedirect("connectToRenren");
         } else {
+			System.out.println(newList.size());
           newPosts.addAll(newList);
         }
       }

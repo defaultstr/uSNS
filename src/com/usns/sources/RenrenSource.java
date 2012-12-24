@@ -44,6 +44,8 @@ public class RenrenSource {
 				post.user = jo.get("name").toString();
 				post.source = SOURCE_NAME;
 				post.sourceId = jo.get("post_id").toString();
+				if (sinceId != null && Long.parseLong(post.sourceId) <= Long.parseLong(sinceId))
+					break;
 				try {
 					post.date = df.parse(jo.get("update_time").toString());
 				} catch (ParseException e) {
