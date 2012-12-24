@@ -14,13 +14,14 @@ function onload() {
 	if (user) {
 		document.getElementById("txt_username").value = user;
 		document.getElementById("txt_password").value = "";
+		document.getElementById("btn_connect_weibo").disabled = false;
+		document.getElementById("btn_connect_renren").disabled = false;
 		document.getElementById("btn_login").disabled = false;
-
 		document.getElementById("btn_refresh").disabled = false;
-		document.getElementById("btn_connect_weibo").disabled = true;
 		document.getElementById("btn_prevPage").disabled = false;
 		document.getElementById("btn_nextPage").disabled = false;
 		document.getElementById("btn_refresh").disabled = false;
+		refreshData();
 	}
 }
 
@@ -35,6 +36,8 @@ function handleIpResponseLogin()
 		{
 			alert("登录成功");
 			var btn = document.getElementById("btn_connect_weibo");
+			btn.disabled = false;
+			btn = document.getElementById("btn_connect_renren");
 			btn.disabled = false;
 		}
 		else
@@ -210,3 +213,14 @@ function connectWeiBo()
 	document.getElementById("btn_refresh").disabled = false;
 	window.location = "http://127.0.0.1/uSNS/connectToWeibo";
 }
+
+function connectRenren()
+{
+	document.getElementById("btn_login").disabled = false;
+	document.getElementById("btn_connect_renren").disabled = true;
+	document.getElementById("btn_prevPage").disabled = false;
+	document.getElementById("btn_nextPage").disabled = false;
+	document.getElementById("btn_refresh").disabled = false;
+	window.location = "http://127.0.0.1/uSNS/connectToRenren";
+}
+

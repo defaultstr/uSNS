@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -126,6 +127,7 @@ public class TweetsList extends HttpServlet {
       }
 			//TODO add other source			
 		}
+		Collections.sort(newPosts);
 		//tag and store new posts
 		for (Post p : newPosts) {
 			p.tag = MyClassifier.NOT_SPAM_TAG;

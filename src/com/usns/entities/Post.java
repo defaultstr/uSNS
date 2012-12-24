@@ -12,7 +12,7 @@ import com.amazonaws.util.json.JSONObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-public class Post {
+public class Post implements Comparable<Post>{
 	public String owner;
 	public String uid;
 	public String user;
@@ -77,5 +77,10 @@ public class Post {
 		ret.autoTag = obj.getString("autoTag");
 		ret.dbId = obj.getObjectId("_id");
 		return ret;
+	}
+
+	@Override
+	public int compareTo(Post o) {
+		return -this.date.compareTo(o.date);
 	}
 }

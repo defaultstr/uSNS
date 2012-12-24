@@ -3,7 +3,13 @@ package com.usns.sources;
 
 import com.usns.DB;
 import com.usns.entities.Post;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -38,8 +44,12 @@ public class RenrenSource {
 				post.user = jo.get("name").toString();
 				post.source = SOURCE_NAME;
 				post.sourceId = jo.get("post_id").toString();
-				post.date = df.parse(jo.get("update_time").toString());
-				post.text = jo.get("content").toString();
+				try {
+					post.date = df.parse(jo.get("update_time").toString());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				post.text = jo.get("message").toString();
 				result.add(post);
 			}
 		} else {
@@ -77,10 +87,12 @@ public class RenrenSource {
 			parameters.put("code", code);
 			String tokenResult = HttpURLUtils.doPost(rrOAuthTokenEndpoint, parameters);
 			JSONObject tokenJson = (JSONObject) JSONValue.parse(tokenResult);
-			tokens.insert(new BasicDBObject("user", user)
+			tokens.update(new BasicDBObject("user", user).append("source", SOURCE_NAME),
+					new BasicDBObject("user", user)
 					.append("source", SOURCE_NAME)
 					.append("access-token", (String) tokenJson.get("access_token"))
-					.append("refresh-token", (String) tokenJson.get("refresh_token"));
+					.append("refresh-token", (String) tokenJson.get("refresh_token")),
+					true, false);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}

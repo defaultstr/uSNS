@@ -72,7 +72,7 @@ public class SinaWeiboSource {
 		AccessToken at;
 		try {
 			at = new Oauth().getAccessTokenByCode(code);
-			tokens.update(new BasicDBObject("user", user), 
+			tokens.update(new BasicDBObject("user", user).append("source", SOURCE_NAME), 
 					new BasicDBObject("user", user)
 					.append("source", SOURCE_NAME)
 					.append("access-token", at.getAccessToken())

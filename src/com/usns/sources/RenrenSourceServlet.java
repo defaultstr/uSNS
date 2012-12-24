@@ -34,6 +34,8 @@ public class RenrenSourceServlet extends HttpServlet {
 		String code = request.getParameter("code");
 		String user = (String) request.getSession().getAttribute("user");
 		RenrenSource.putNewUserToken(user, code);
+		response.sendRedirect("../SOA.html?"+user);
+
 	}
 
 }
