@@ -76,7 +76,7 @@ public class TweetsList extends HttpServlet {
 			if (oldPosts.size() < 1000)
 				oldPosts.add(p);
 			//train the user classifier
-			if (trainCount < 10) {
+			if (trainCount < 100) {
 				myClassifier.feedData(p, p.tag);
 				gClassifier.feedData(p, p.tag);
 				trainCount ++;
@@ -109,6 +109,7 @@ public class TweetsList extends HttpServlet {
 			}
 			if (source.equals(SinaWeiboSource.SOURCE_NAME)) {
 				ArrayList<Post> newList = SinaWeiboSource.getUserPostsSince(user, lastSourceId);
+				System.out.println(newList.size());
 				if (newList == null) {
 					response.sendRedirect(new Oauth().authorize("code", ""));
 				} else {
@@ -119,9 +120,10 @@ public class TweetsList extends HttpServlet {
 		}
 		//tag and store new posts
 		for (Post p : newPosts) {
-			p.tag = gClassifier.getTag(p);
-			if (!p.tag.equals(GlobalClassifier.SPAM_TAG))
-				p.tag = myClassifier.getTag(p);
+			p.tag = MyClassifier.NOT_SPAM_TAG;
+			p.autoTag = gClassifier.getTag(p);
+			if (!p.autoTag.equals(GlobalClassifier.SPAM_TAG))
+				p.autoTag = myClassifier.getTag(p);
 			BasicDBObject obj = Post.toDBObject(p);
 			postColl.insert(obj);
 			p.dbId = obj.getObjectId("_id");
@@ -131,7 +133,7 @@ public class TweetsList extends HttpServlet {
 		JSONArray tweetsList = new JSONArray();
 		//first return the good new posts
 		for (Post p : newPosts) {
-			if (p.tag.equals(MyClassifier.GOOD_TAG)) {
+			if (p.autoTag.equals(MyClassifier.GOOD_TAG)) {
 				if (index >= startAt && index < startAt+limit) {
 					tweetsList.put(Post.toJSONObject(p));
 				}
@@ -142,7 +144,7 @@ public class TweetsList extends HttpServlet {
 		}
 		//then the normal posts
 		for (Post p : newPosts) {
-			if (!p.tag.equals(MyClassifier.SPAM_TAG)) {
+			if (!p.autoTag.equals(MyClassifier.SPAM_TAG)) {
 				if (index >= startAt && index < startAt+limit) {
 					tweetsList.put(Post.toJSONObject(p));
 				}
@@ -153,7 +155,7 @@ public class TweetsList extends HttpServlet {
 		}
 		//finally the old posts
 		for (Post p : oldPosts) {
-			if (!p.tag.equals(MyClassifier.SPAM_TAG)) {
+			if (!p.tag.equals(MyClassifier.SPAM_TAG) && !p.autoTag.equals(MyClassifier.SPAM_TAG)) {
 				if (index >= startAt && index < startAt+limit) {
 					tweetsList.put(Post.toJSONObject(p));
 				}
