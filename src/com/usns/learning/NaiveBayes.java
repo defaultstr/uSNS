@@ -28,7 +28,7 @@ public class NaiveBayes {
 	public static void main(String[] args) {
 		String[] trainStrings = {"我爱你","我不爱你","今天天气真好","我来打酱油"};
 		String[] trainClass = {"+","-","-","jiangyou"};
-		String testString = "打酱油";
+		String testString = "打酱油啊喂";
 		NaiveBayes nb = new NaiveBayes(0);
 		for (int i = 0; i < trainClass.length; i ++) {
 			nb.update(new ArrayList<String>(), NaiveBayes.get2Grams(trainStrings[i]), trainClass[i]);
@@ -96,14 +96,21 @@ public class NaiveBayes {
 			}
 			Ijx.put(classVal, Ijx.get(classVal) + 1);
  		}
+		
+		for (int i = 0; i < className.size(); i++) {
+			System.out.println(className.get(i) + ":" + classCount.get(className.get(i)));
+		}
 	}
 	
 	public String classify(ArrayList<String> fieldData, Set<String> textData) {
+		if (className.size() == 0)
+			return null;
 		double[] p = new double[className.size()];
 		for (int i = 0; i < className.size(); i++) {
 			p[i] = 1.0 * classCount.get(className.get(i)) / N;
 		}
 		for (String gram : count.keySet()) {
+			System.out.println(gram);
 			TreeMap<String, Integer> tree = count.get(gram);
 			if (textData.contains(gram)) {
 				for (int i = 0; i < className.size(); i++) {
@@ -131,6 +138,14 @@ public class NaiveBayes {
 			for (int i = 0; i < className.size(); i++) {
 				p[i] /= max;
 			}
+			for (int i = 0; i < className.size(); i++) {
+				System.out.print(className.get(i) + "\t");
+			}
+			System.out.println();
+			for (int i = 0; i < className.size(); i++) {
+				System.out.print(p[i] + "\t");
+			}
+			System.out.println();
 		}
 		
 		for (int i = 0; i < fieldCount.size(); i++) {
@@ -163,6 +178,9 @@ public class NaiveBayes {
 		for (int i = 1; i < className.size(); i++) {
 			if (p[i] > p[maxIndex])
 				maxIndex = i;
+		}
+		for (int i = 0; i < className.size(); i++) {
+			System.out.println("class:" + className.get(i) + " p:" + p[i]);
 		}
 		return className.get(maxIndex);
 	}

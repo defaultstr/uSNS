@@ -7,15 +7,13 @@ import java.util.Set;
 import com.usns.entities.Post;
 
 
-public class MyClassifier {
+public class GlobalClassifier {
 
 	//some special tags that need global classifier
 	public static final String SPAM_TAG = "spam";
 	public static final String NOT_SPAM_TAG = "not_spam";
-	public static final String GOOD_TAG = "good";
-	public static final String NOT_GOOD_TAG = "not_good";
 	private NaiveBayes spamClassifier = null;
-	private NaiveBayes goodClassifier = null;
+	private static GlobalClassifier instance = null;
 	/**
 	 * @param args
 	 */
@@ -23,13 +21,16 @@ public class MyClassifier {
 		
 	}
 	
-	public MyClassifier() {
+	private GlobalClassifier() {
 		if (spamClassifier == null) {
 			spamClassifier = new NaiveBayes(2);
 		}
-		if (goodClassifier == null) {
-			goodClassifier = new NaiveBayes(2);
-		}
+	}
+	
+	public static GlobalClassifier getInstance() {
+		if (instance == null)
+			instance = new GlobalClassifier();
+		return instance;
 	}
 	
 	public void feedData(Post p,String tags){
@@ -39,11 +40,6 @@ public class MyClassifier {
 			spamClassifier.update(getFieldData(p), getTextData(p), SPAM_TAG);
 		} else {
 			spamClassifier.update(getFieldData(p), getTextData(p), NOT_SPAM_TAG);
-			if (tags.equals(GOOD_TAG)) {
-				goodClassifier.update(getFieldData(p), getTextData(p), GOOD_TAG);
-			} else {
-				goodClassifier.update(getFieldData(p), getTextData(p), NOT_GOOD_TAG);
-			}
 		}
 	}
 	
@@ -52,12 +48,7 @@ public class MyClassifier {
 	public String getTag(Post p){
 		String result = spamClassifier.classify(getFieldData(p), getTextData(p));
 		if (result == null)
-			return NOT_GOOD_TAG;
-		if (result.equals(SPAM_TAG))
-			return SPAM_TAG;
-		result = goodClassifier.classify(getFieldData(p), getTextData(p));
-		if (result == null)
-			return NOT_GOOD_TAG;
+			return NOT_SPAM_TAG;
 		return result;
 	}
 	

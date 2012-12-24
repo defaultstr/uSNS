@@ -20,7 +20,7 @@ import com.mongodb.DBObject;
 public class SinaWeiboSource {
 	public static String SOURCE_NAME = "SinaWeibo";
 
-	public static ArrayList<Post> getTokenPostsSince(String token,
+	public static ArrayList<Post> getTokenPostsSince(String owner, String token,
 			String sinceId) {
 		Timeline tm = new Timeline();
 		tm.client.setToken(token);
@@ -32,7 +32,9 @@ public class SinaWeiboSource {
 			result = new ArrayList<Post>(sw.getStatuses().size());
 			for (Status status : sw.getStatuses()) {
 				Post post = new Post();
-				post.user = status.getUser().getId();
+				post.owner = owner;
+				post.uid = status.getUser().getId();
+				post.user = status.getUser().getName();
 				post.source = SOURCE_NAME;
 				post.sourceId = status.getId();
 				post.date = status.getCreatedAt();
@@ -48,6 +50,7 @@ public class SinaWeiboSource {
 
 			e.printStackTrace();
 		}
+		//System.out.println("get " + result.size() + " new tweets from Weibo");
 		return result;
 	}
 
@@ -57,7 +60,7 @@ public class SinaWeiboSource {
 				"source", SOURCE_NAME));
 		if (token == null)
 			return null;
-		return getTokenPostsSince((String) token.get("access-token"), sinceId);
+		return getTokenPostsSince(user, (String) token.get("access-token"), sinceId);
 	}
 
 	public static ArrayList<Post> getUserPosts(String user) {
