@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta charset="utf-8">
 		<style type="text/css">
 			html { height: 100%; font-family: Arial; font-size: 20px; }
 			body { height: 100%; margin: 0px; padding: 0px; }
@@ -7,7 +8,7 @@
 		</style>
   	<title>这是我们的SOA大作业哦亲~</title>
 	</head>
-	<body>
+	<body onload="onload();">
 		<style type="text/css">
 			.class-time
 			{
@@ -42,14 +43,14 @@
 				<tr>
 					<td>
 						<input id="btn_login" type="button" onclick="login()" value="登录">
-						<input id="btn_refresh" type="button" onclick="refreshData()" value="刷新">
+						<input id="btn_connect_weibo" type="button" onclick="connectWeiBo()" value="连接到微博" disabled=true>
 					</td>
 				</tr>
-				<tr><td><input id="btn_connect_weibo" type="button" onclick="connectWeiBo()" value="连接到微博"></td></tr>
 				<tr>
 					<td>
-						<input id="btn_prevPage" type="button" onclick="pageUp()" value="上一页">
-						<input id="btn_nextPage" type="button" onclick="pageDown()" value="下一页">
+						<input id="btn_prevPage" type="button" onclick="pageUp()" value="上一页" disabled=true>
+						<input id="btn_nextPage" type="button" onclick="pageDown()" value="下一页" disabled=true>
+						<input id="btn_refresh" type="button" onclick="refreshData()" value="刷新" disabled=true>
 					</td>
 				</tr>
 						

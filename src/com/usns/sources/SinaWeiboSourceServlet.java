@@ -36,7 +36,7 @@ public class SinaWeiboSourceServlet extends HttpServlet {
 		String code = request.getParameter("code");
 		String user = (String) request.getSession().getAttribute("user");
 		SinaWeiboSource.putNewUserToken(user, code);
-		response.sendRedirect("../SOA.html");
+		response.sendRedirect("../SOA.html?"+user);
 	}
 
 }

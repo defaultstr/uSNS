@@ -9,6 +9,21 @@ function createXmlHttpRequest()
 		return new XMLHttpRequest();  
 }
 
+function onload() {
+	var user = location.search.slice(1);
+	if (user) {
+		document.getElementById("txt_username").value = user;
+		document.getElementById("txt_password").value = "";
+		document.getElementById("btn_login").disabled = false;
+
+		document.getElementById("btn_refresh").disabled = false;
+		document.getElementById("btn_connect_weibo").disabled = true;
+		document.getElementById("btn_prevPage").disabled = false;
+		document.getElementById("btn_nextPage").disabled = false;
+		document.getElementById("btn_refresh").disabled = false;
+	}
+}
+
 function handleIpResponseLogin()
 {  
 //	alert("readyState:" + xmlHttpRequest.readyState + "  status:" + xmlHttpRequest.status);
@@ -17,7 +32,11 @@ function handleIpResponseLogin()
 		var result = xmlHttpRequest.responseText;
 		var json = eval('('+result+')');
 		if ( json.result == 0 )
+		{
 			alert("登录成功");
+			var btn = document.getElementById("btn_connect_weibo");
+			btn.disabled = false;
+		}
 		else
 			alert("登录失败");
 	}  
@@ -184,5 +203,10 @@ function pageDown()
 
 function connectWeiBo()
 {
+	document.getElementById("btn_login").disabled = false;
+	document.getElementById("btn_connect_weibo").disabled = true;
+	document.getElementById("btn_prevPage").disabled = false;
+	document.getElementById("btn_nextPage").disabled = false;
+	document.getElementById("btn_refresh").disabled = false;
 	window.location = "http://127.0.0.1/uSNS/connectToWeibo";
 }
