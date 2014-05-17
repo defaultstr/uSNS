@@ -19,8 +19,8 @@ public class WeiboConfig {
 
   public static String getValue(String key) {
     // return props.getProperty(key);
-    if (key.equals("client_ID")) return "2080205222";
-    if (key.equals("client_SERCRET")) return "e760bdeeb89dd81662e051cfaf25220b";
+    if (key.equals("client_ID")) return "3556572523";
+    if (key.equals("client_SERCRET")) return "123b9f40dd2ff1271b62c8473ca5437c";
     if (key.equals("redirect_URI")) return "http://127.0.0.1/uSNS/sources/sinaweibo_callback";
     if (key.equals("baseURL")) return "https://api.weibo.com/2/";
     if (key.equals("accessTokenURL")) return "https://api.weibo.com/oauth2/access_token";

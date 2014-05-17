@@ -117,15 +117,15 @@ public class TweetsList extends HttpServlet {
 					newPosts.addAll(newList);
 				}
 			} else if (source.equals(RenrenSource.SOURCE_NAME)) {
-        ArrayList<Post> newList = RenrenSource.getUserPostsSince(user, lastSourceId);
-       
-        if (newList == null) {
-          response.sendRedirect("connectToRenren");
-        } else {
-			System.out.println(newList.size());
-          newPosts.addAll(newList);
-        }
-      }
+		        ArrayList<Post> newList = RenrenSource.getUserPostsSince(user, lastSourceId);
+		       
+		        if (newList == null) {
+		          response.sendRedirect("connectToRenren");
+		        } else {
+					System.out.println(newList.size());
+		          newPosts.addAll(newList);
+		        }
+			}
 			//TODO add other source			
 		}
 		Collections.sort(newPosts);
