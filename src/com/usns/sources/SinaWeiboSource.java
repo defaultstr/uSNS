@@ -39,6 +39,9 @@ public class SinaWeiboSource {
 				post.sourceId = status.getId();
 				post.date = status.getCreatedAt();
 				post.text = status.getText();
+				if (status.getRetweetedStatus() != null) {
+					post.text += ":\"" + status.getRetweetedStatus().getText() + "\"";
+				}
 				result.add(post);
 			}
 		} catch (WeiboException e) {
